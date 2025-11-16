@@ -1,4 +1,4 @@
-package com.flightapp.service.impl;
+package com.flightapp.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +16,6 @@ import com.flightapp.entity.Flight;
 import com.flightapp.entity.FlightStatus;
 import com.flightapp.repository.AirlineRepository;
 import com.flightapp.repository.FlightRepository;
-import com.flightapp.service.AdminService;
 
 import lombok.extern.slf4j.Slf4j;
 
