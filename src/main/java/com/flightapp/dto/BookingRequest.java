@@ -21,7 +21,7 @@ public class BookingRequest {
 	@NotNull
 	private TripType tripType;
 	
-	private int returnFlightId;
+	private Integer returnFlightId;
 	
 	@NotNull
 	@Positive
@@ -55,11 +55,11 @@ public class BookingRequest {
 		this.tripType = tripType;
 	}
 
-	public int getReturnFlightId() {
+	public Integer getReturnFlightId() {
 		return returnFlightId;
 	}
 
-	public void setReturnFlightId(int returnFlightId) {
+	public void setReturnFlightId(Integer returnFlightId) {
 		this.returnFlightId = returnFlightId;
 	}
 
