@@ -69,12 +69,12 @@
 		<dependency>
     	<groupId>com.mysql</groupId>
     	<artifactId>mysql-connector-j</artifactId>
-    	<version>9.4.0</version><!--$NO-MVN-MAN-VER$--> <!-- Replace with the desired version -->
+    	<version>9.4.0</version>
 		</dependency>
 		<dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
-        <version>5.12.2</version><!--$NO-MVN-MAN-VER$--> <!-- Use the latest stable version -->
+        <version>5.12.2</version>
         <scope>test</scope>
     </dependency>
 		<dependency>

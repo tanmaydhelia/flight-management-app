@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -31,6 +32,10 @@ public class FlightInventoryItemDto {
 	@NotNull
 	@Positive
 	private int totalSeats;
+	
+	@NotNull
+	@Min(0)
+	private int availabeSeats;
 
 	public String getFromAirport() {
 		return fromAirport;
@@ -78,5 +83,13 @@ public class FlightInventoryItemDto {
 
 	public void setTotalSeats(int totalSeats) {
 		this.totalSeats = totalSeats;
+	}
+
+	public int getAvailabeSeats() {
+		return availabeSeats;
+	}
+
+	public void setAvailabeSeats(int availabeSeats) {
+		this.availabeSeats = availabeSeats;
 	}
 }
