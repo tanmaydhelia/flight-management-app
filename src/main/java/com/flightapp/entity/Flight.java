@@ -1,4 +1,4 @@
-package com.flight.entity;
+package com.flightapp.entity;
 
 import java.time.LocalDateTime;
 
@@ -35,11 +35,11 @@ public class Flight {
 	private String toAirport;
 	
 	@NotNull
-	@DateTimeFormat(pattern = "dd/mm/yy hh:mm:ss a")
+	@DateTimeFormat(pattern = "dd/mm/yy hh:mm a")
 	private LocalDateTime departureTime;
 	
 	@NotNull
-	@DateTimeFormat(pattern = "dd/mm/yy hh:mm:ss a")
+	@DateTimeFormat(pattern = "dd/mm/yy hh:mm a")
 	private LocalDateTime arrivalTime;
 	
 	@NotNull

@@ -1,4 +1,4 @@
-package com.flight.entity;
+package com.flightapp.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
