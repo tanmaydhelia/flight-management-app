@@ -11,9 +11,9 @@ import com.flightapp.entity.BookingStatus;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer>{
 	
-	Optional<Booking> findByPNR(String pnr);
+//	Optional<Booking> findByPnr(String pnr);
 	
 	List<Booking> findByItineraryId(int itineraryId);
 	
-	List<Booking> findByStatusAndDate(BookingStatus Status, LocalDate date);
+//	List<Booking> findByStatusAndDate(BookingStatus Status, LocalDate date);
 }

@@ -10,7 +10,7 @@ import com.flightapp.entity.FlightStatus;
 
 public interface FlightRepository extends JpaRepository<Flight, Integer>{
 	
-	List<Flight> findBySourceToDestAndDeptTime(
+	List<Flight> findByFromAirportAndToAirportAndDepartureTimeBetweenAndStatus(
 		String fromAirport,
 		String toAirport,
 		LocalDateTime departureStart,

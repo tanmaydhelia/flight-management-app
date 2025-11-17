@@ -55,7 +55,7 @@ public class FlightController {
 	}
 	
 	@GetMapping("/booking/history/{emailId}")
-	public List<ItineraryDto> getBookinghistory(@PathVariable("emailId") String emailId){
+	public List<ItineraryDto> getBookinghistory(@PathVariable String emailId){
 		log.info("GET /api/v1.0/flight/booking/history/{}",emailId);
 		return bookingService.getHistoryByEmail(emailId);
 	}

@@ -34,7 +34,7 @@ public class FlightServiceImpl implements FlightService{
 		LocalDateTime start = JourneyDate.atStartOfDay();
 		LocalDateTime end = JourneyDate.plusDays(1).atStartOfDay();
 		
-		List<Flight> flights = flightRepository.findBySourceToDestAndDeptTime(req.getFrom(), req.getTo(), start, end, FlightStatus.SCHEDULED);
+		List<Flight> flights = flightRepository.findByFromAirportAndToAirportAndDepartureTimeBetweenAndStatus(req.getFrom(), req.getTo(), start, end, FlightStatus.SCHEDULED);
 		
 		log.debug("Found {} flights", flights.size());
 		
