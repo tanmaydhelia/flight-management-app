@@ -18,7 +18,6 @@ import com.flightapp.dto.TripType;
 import com.flightapp.entity.Booking;
 import com.flightapp.entity.BookingStatus;
 import com.flightapp.entity.Flight;
-import com.flightapp.entity.FlightStatus;
 import com.flightapp.entity.Itinerary;
 import com.flightapp.entity.Passenger;
 import com.flightapp.entity.Role;
@@ -26,10 +25,8 @@ import com.flightapp.entity.TripSegmentType;
 import com.flightapp.entity.User;
 import com.flightapp.exception.CancellationNotAllowedException;
 import com.flightapp.exception.ResourceNotFoundException;
-import com.flightapp.exception.SeatNotAvailableException;
 import com.flightapp.repository.FlightRepository;
 import com.flightapp.repository.ItineraryRepository;
-import com.flightapp.repository.PassengerRepository;
 import com.flightapp.repository.UserRepository;
 import com.flightapp.service.BookingService;
 
@@ -42,17 +39,16 @@ public class BookingServiceImpl implements BookingService{
 	private final FlightRepository flightRepository;
 	private final ItineraryRepository itineraryRepository;
 //	private final BookingRepository bookingRepository;
-	private final PassengerRepository passengerRepository;
+//	private final PassengerRepository passengerRepository;
 	
 	public BookingServiceImpl(UserRepository userRepository, FlightRepository flightRepository,
-			ItineraryRepository itineraryRepository,
-			PassengerRepository passengerRepository) {
+			ItineraryRepository itineraryRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.flightRepository = flightRepository;
 		this.itineraryRepository = itineraryRepository;
 //		this.bookingRepository = bookingRepository;
-		this.passengerRepository = passengerRepository;
+//		this.passengerRepository = passengerRepository;
 	}
 
 	@Override
@@ -74,19 +70,23 @@ public class BookingServiceImpl implements BookingService{
 			returnFlight = getFlightOrThrow(req.getReturnFlightId());
 		}
 		
-		List<String> requestedSeats = req.getPassengers().stream()
-				.map(passengerReq -> passengerReq.getSeatNumber())
-				.toList();
+//		List<String> requestedSeats = req.getPassengers().stream()
+//				.map(passengerReq -> passengerReq.getSeatNumber())
+//				.toList();
 		
-		validateFLightSeats(outwardFlight, requestedSeats, req.getNumberOfSeats());
-		
-		if(isRoundTrip) validateFLightSeats(returnFlight, requestedSeats, req.getNumberOfSeats());
+//		validateFLightSeats(outwardFlight, requestedSeats, req.getNumberOfSeats());
+//		
+//		if(isRoundTrip) validateFLightSeats(returnFlight, requestedSeats, req.getNumberOfSeats());
 		
 		int seats = req.getNumberOfSeats();
 		int outwardAmount = outwardFlight.getPrice()*seats;
 		int returnAmount = isRoundTrip?(returnFlight.getPrice()*seats):0;
 		
 		int totalAmount = outwardAmount+returnAmount;
+		
+		int updatedSeats = outwardFlight.getAvailableSeats() - seats;
+		outwardFlight.setAvailableSeats(updatedSeats);
+		flightRepository.save(outwardFlight);
 		
 		Itinerary i = new Itinerary();
 		i.setPnr(generatePnr());
@@ -140,20 +140,20 @@ public class BookingServiceImpl implements BookingService{
 		return flightRepository.findById(outwardFlightId).orElseThrow(()-> new ResourceNotFoundException("Flight not found for id={}"+outwardFlightId));
 	}
 	
-	private void validateFLightSeats(Flight outwardFlight, List<String> requestedSeats, int numberOfSeats) {
-		if(outwardFlight.getStatus() != FlightStatus.SCHEDULED) {
-			throw new IllegalArgumentException("Flight with id={} is not scheduled!!!"+outwardFlight.getId());
-		}
-		if (outwardFlight.getAvailableSeats() < numberOfSeats) {
-            throw new SeatNotAvailableException("Not enough seats available on flight " + outwardFlight.getId());
-        }
-		
-		List<String> takenSeats = passengerRepository.findTakenSeatNumbers(outwardFlight.getId(), requestedSeats);
-		if(takenSeats.isEmpty()) {
-			log.warn("Seat Conflict on flight={}, for seats={}", outwardFlight.getId(), takenSeats);
-			throw new SeatNotAvailableException("Seats Allready Taken!!!");
-		}
-	}
+//	private void validateFLightSeats(Flight outwardFlight, List<String> requestedSeats, int numberOfSeats) {
+//		if(outwardFlight.getStatus() != FlightStatus.SCHEDULED) {
+//			throw new IllegalArgumentException("Flight with id={} is not scheduled!!!"+outwardFlight.getId());
+//		}
+//		if (outwardFlight.getAvailableSeats() < numberOfSeats) {
+//            throw new SeatNotAvailableException("Not enough seats available on flight " + outwardFlight.getId());
+//        }
+//		
+//		List<String> takenSeats = passengerRepository.findTakenSeatNumbers(outwardFlight.getId(), requestedSeats);
+//		if(takenSeats.isEmpty()) {
+//			log.warn("Seat Conflict on flight={}, for seats={}", outwardFlight.getId(), takenSeats);
+//			throw new SeatNotAvailableException("Seats Allready Taken!!!");
+//		}
+//	}
 
 	@Override
 	@Transactional
@@ -169,7 +169,7 @@ public class BookingServiceImpl implements BookingService{
 	public List<ItineraryDto> getHistoryByEmail(String email) {
 		log.info("Fetching booking history for email={}",email);
 		List<Itinerary> i = itineraryRepository.findByUserEmail(email);
-		
+			
 		log.debug("Found {} itineraries", i.size());
 		
 		return i.stream().map(itin -> this.toItineraryDto(itin)).toList();

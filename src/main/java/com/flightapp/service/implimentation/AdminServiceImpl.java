@@ -49,10 +49,10 @@ public class AdminServiceImpl implements AdminService{
 			flight.setFromAirport(item.getFromAirport());
 			flight.setToAirport(item.getToAirport());
 			flight.setDepartureTime(item.getDepartureTime());
-			flight.setArrivalTime(item.getArrivalTime());
+			flight.setArrivalTime(item.getArrivalTime()	);
 			flight.setPrice(item.getPrice());
 			flight.setTotalSeats(item.getTotalSeats());
-			flight.setAvailableSeats(item.getAvailabeSeats());
+			flight.setAvailableSeats(item.getTotalSeats());	
 			flight.setStatus(FlightStatus.SCHEDULED);
 			
 			flightsToSave.add(flight);
