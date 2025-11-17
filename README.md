@@ -671,3 +671,84 @@ The project uses Lombok annotations to reduce boilerplate code. Ensure your IDE 
 
 ### Logging
 Uses SLF4J with Lombok's `@Slf4j` annotation. Configured in `application.properties`.
+
+## Testing Summary
+
+The application has been thoroughly tested across multiple layers to ensure functional correctness, robustness, and adherence to business rules.
+
+---
+
+### **1. Unit Testing (Service Layer)**  
+Performed using **JUnit 5** and **Mockito**, focusing on validating core business logic.
+
+#### **BookingServiceImpl Tests**
+- Successful **ONE_WAY** bookings 
+- Successful **ROUND_TRIP** bookings 
+- **Seat availability** validation 
+- **Taken seat** conflict detection 
+- **Itinerary retrieval** via PNR 
+- **Booking history retrieval** 
+- **Cancellation rules**
+  - Allowed (more than 24 hours before departure)
+  - Not allowed (within 24 hours)
+
+These tests mock the repositories and isolate service logic, resulting in high coverage.
+
+#### **FlightServiceImpl Tests**
+- Flight search logic 
+- Date range and availability checks
+
+#### **AdminServiceImpl Tests**
+- Airline inventory creation 
+- Validation for arrival time > departure time 
+- Airline existence checks 
+
+---
+
+### **2. Controller Testing (Web Layer)**  
+Executed using **@WebMvcTest** and `MockMvc`:
+
+- `/search` – Flight search 
+- `/booking/{flightId}` – Booking requests 
+- `/ticket/{pnr}` – Ticket lookup 
+- `/booking/history/{email}` – Booking history 
+- `/booking/cancel/{pnr}` – Cancellations 
+- `/airline/inventory/add` – Admin flight creation 
+
+Verified:
+- URL mappings 
+- JSON request and response structure 
+- HTTP status codes 
+- Error response handling 
+
+---
+
+### **3. Repository Testing (Data Layer)**  
+Using **@DataJpaTest** with an in-memory DB:
+
+- `PassengerRepository.findTakenSeatNumbers` 
+- `FlightRepository` derived queries 
+
+Validated JPQL correctness, custom queries, and entity mappings.
+
+---
+
+### **4. Exception & Validation Testing**  
+Tests verify correct handling of:
+
+- `SeatNotAvailableException` 
+- `ResourceNotFoundException` 
+- `CancellationNotAllowedException` 
+- `MethodArgumentNotValidException` via global exception handler 
+
+Ensures proper HTTP status codes and message formatting.
+
+---
+
+### **5. Code Coverage (JaCoCo)**  
+
+Coverage generated with:
+
+```bash
+mvn clean test
+
