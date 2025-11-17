@@ -27,7 +27,6 @@ import com.flightapp.entity.User;
 import com.flightapp.exception.CancellationNotAllowedException;
 import com.flightapp.exception.ResourceNotFoundException;
 import com.flightapp.exception.SeatNotAvailableException;
-import com.flightapp.repository.BookingRepository;
 import com.flightapp.repository.FlightRepository;
 import com.flightapp.repository.ItineraryRepository;
 import com.flightapp.repository.PassengerRepository;
@@ -42,17 +41,17 @@ public class BookingServiceImpl implements BookingService{
 	private final UserRepository userRepository;
 	private final FlightRepository flightRepository;
 	private final ItineraryRepository itineraryRepository;
-	private final BookingRepository bookingRepository;
+//	private final BookingRepository bookingRepository;
 	private final PassengerRepository passengerRepository;
 	
 	public BookingServiceImpl(UserRepository userRepository, FlightRepository flightRepository,
-			ItineraryRepository itineraryRepository, BookingRepository bookingRepository,
+			ItineraryRepository itineraryRepository,
 			PassengerRepository passengerRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.flightRepository = flightRepository;
 		this.itineraryRepository = itineraryRepository;
-		this.bookingRepository = bookingRepository;
+//		this.bookingRepository = bookingRepository;
 		this.passengerRepository = passengerRepository;
 	}
 
