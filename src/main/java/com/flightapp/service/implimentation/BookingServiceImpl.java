@@ -38,8 +38,6 @@ public class BookingServiceImpl implements BookingService{
 	private final UserRepository userRepository;
 	private final FlightRepository flightRepository;
 	private final ItineraryRepository itineraryRepository;
-//	private final BookingRepository bookingRepository;
-//	private final PassengerRepository passengerRepository;
 	
 	public BookingServiceImpl(UserRepository userRepository, FlightRepository flightRepository,
 			ItineraryRepository itineraryRepository) {
@@ -47,8 +45,6 @@ public class BookingServiceImpl implements BookingService{
 		this.userRepository = userRepository;
 		this.flightRepository = flightRepository;
 		this.itineraryRepository = itineraryRepository;
-//		this.bookingRepository = bookingRepository;
-//		this.passengerRepository = passengerRepository;
 	}
 
 	@Override
@@ -69,14 +65,6 @@ public class BookingServiceImpl implements BookingService{
 			}
 			returnFlight = getFlightOrThrow(req.getReturnFlightId());
 		}
-		
-//		List<String> requestedSeats = req.getPassengers().stream()
-//				.map(passengerReq -> passengerReq.getSeatNumber())
-//				.toList();
-		
-//		validateFLightSeats(outwardFlight, requestedSeats, req.getNumberOfSeats());
-//		
-//		if(isRoundTrip) validateFLightSeats(returnFlight, requestedSeats, req.getNumberOfSeats());
 		
 		int seats = req.getNumberOfSeats();
 		int outwardAmount = outwardFlight.getPrice()*seats;
@@ -139,21 +127,6 @@ public class BookingServiceImpl implements BookingService{
 	private Flight getFlightOrThrow(int outwardFlightId) {
 		return flightRepository.findById(outwardFlightId).orElseThrow(()-> new ResourceNotFoundException("Flight not found for id={}"+outwardFlightId));
 	}
-	
-//	private void validateFLightSeats(Flight outwardFlight, List<String> requestedSeats, int numberOfSeats) {
-//		if(outwardFlight.getStatus() != FlightStatus.SCHEDULED) {
-//			throw new IllegalArgumentException("Flight with id={} is not scheduled!!!"+outwardFlight.getId());
-//		}
-//		if (outwardFlight.getAvailableSeats() < numberOfSeats) {
-//            throw new SeatNotAvailableException("Not enough seats available on flight " + outwardFlight.getId());
-//        }
-//		
-//		List<String> takenSeats = passengerRepository.findTakenSeatNumbers(outwardFlight.getId(), requestedSeats);
-//		if(takenSeats.isEmpty()) {
-//			log.warn("Seat Conflict on flight={}, for seats={}", outwardFlight.getId(), takenSeats);
-//			throw new SeatNotAvailableException("Seats Allready Taken!!!");
-//		}
-//	}
 
 	@Override
 	@Transactional
