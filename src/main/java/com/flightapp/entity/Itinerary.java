@@ -46,7 +46,7 @@ public class Itinerary {
 	
 	@OneToMany(mappedBy = "itinerary")
 	private List<Booking> bookings = new ArrayList<>();
-
+	
 	public int getId() {
 		return id;
 	}

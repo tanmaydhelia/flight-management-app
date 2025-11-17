@@ -9,6 +9,7 @@ import com.flightapp.entity.BookingStatus;
 import com.flightapp.entity.TripSegmentType;
 
 public class LegDto {
+	private int bookingId;
 	private int flightId;
 	private String fromAirport;
 	private String toAirport;
@@ -22,6 +23,14 @@ public class LegDto {
 	private TripSegmentType segmentType;
 	private BookingStatus status;
 	private List<PassengerDto> passengers;
+	
+	
+	public int getBookingId() {
+		return bookingId;
+	}
+	public void setBookingId(int bookingId) {
+		this.bookingId = bookingId;
+	}
 	public int getFlightId() {
 		return flightId;
 	}

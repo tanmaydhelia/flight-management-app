@@ -1,4 +1,4 @@
-package com.flightapp;
+package com.flightapp.exception;
 
 import java.util.HashMap;
 import java.util.List;
