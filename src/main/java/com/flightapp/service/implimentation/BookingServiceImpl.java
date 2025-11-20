@@ -25,6 +25,7 @@ import com.flightapp.entity.TripSegmentType;
 import com.flightapp.entity.User;
 import com.flightapp.exception.CancellationNotAllowedException;
 import com.flightapp.exception.ResourceNotFoundException;
+import com.flightapp.repository.BookingRepository;
 import com.flightapp.repository.FlightRepository;
 import com.flightapp.repository.ItineraryRepository;
 import com.flightapp.repository.UserRepository;
@@ -35,16 +36,19 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class BookingServiceImpl implements BookingService{
+
+    private final BookingRepository bookingRepository;
 	private final UserRepository userRepository;
 	private final FlightRepository flightRepository;
 	private final ItineraryRepository itineraryRepository;
 	
 	public BookingServiceImpl(UserRepository userRepository, FlightRepository flightRepository,
-			ItineraryRepository itineraryRepository) {
+			ItineraryRepository itineraryRepository, BookingRepository bookingRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.flightRepository = flightRepository;
 		this.itineraryRepository = itineraryRepository;
+		this.bookingRepository = bookingRepository;
 	}
 
 	@Override
@@ -92,7 +96,7 @@ public class BookingServiceImpl implements BookingService{
 			bookings.add(returnBooking);			
 		}
 		i.setBookings(bookings);
-		
+//		bookingRepository.saveAll(bookings);
 		itineraryRepository.save(i);
 		
 		log.info("Itinerary added successfully with PNR={} for user={}", i.getPnr(), user.getName());

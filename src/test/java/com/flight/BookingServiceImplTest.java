@@ -324,7 +324,6 @@ class BookingServiceImplTest {
         booking.setFlight(outwardFlight);
         booking.setStatus(BookingStatus.BOOKED);
         booking.setPassengers(List.of(new Passenger(), new Passenger()));
-
         itinerary.setBookings(List.of(booking));
 
         when(itineraryRepository.findByPnr("PNR123"))
